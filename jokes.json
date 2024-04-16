@@ -1,10 +1,10 @@
 [
     {
         "error": false,
-        "category": "Programming",
+        "category": "Spooky",
         "type": "twopart",
-        "setup": "Why did the web developer walk out of a resturant in disgust?",
-        "delivery": "The seating was laid out in tables.",
+        "setup": "Why do ghosts go on diets?",
+        "delivery": "So they can keep their ghoulish figures.",
         "flags": {
             "nsfw": false,
             "religious": false,
@@ -13,8 +13,65 @@
             "sexist": false,
             "explicit": false
         },
-        "id": 6,
+        "id": 295,
         "safe": true,
+        "lang": "en",
+        "causedBy": null
+    },
+    {
+        "error": false,
+        "category": "Programming",
+        "type": "single",
+        "setup": "",
+        "delivery": "",
+        "flags": {
+            "nsfw": false,
+            "religious": false,
+            "political": false,
+            "racist": false,
+            "sexist": false,
+            "explicit": false
+        },
+        "id": 4,
+        "safe": true,
+        "lang": "en",
+        "causedBy": null
+    },
+    {
+        "error": false,
+        "category": "Programming",
+        "type": "twopart",
+        "setup": "How do you generate a random string?",
+        "delivery": "Put a Windows user in front of Vim and tell them to exit.",
+        "flags": {
+            "nsfw": false,
+            "religious": false,
+            "political": false,
+            "racist": false,
+            "sexist": false,
+            "explicit": false
+        },
+        "id": 127,
+        "safe": true,
+        "lang": "en",
+        "causedBy": null
+    },
+    {
+        "error": false,
+        "category": "Misc",
+        "type": "twopart",
+        "setup": "My neighbor is a 90 year old with Alzheimer's, I see him every morning and he asks me If I've seen his wife.\nEvery day I have to tell this poor man that his wife died 20 years ago.\nI could have moved to another house or even ignore his question.",
+        "delivery": "But the look of joy in his eyes whenever I answer him is worth the world.",
+        "flags": {
+            "nsfw": false,
+            "religious": false,
+            "political": false,
+            "racist": false,
+            "sexist": false,
+            "explicit": false
+        },
+        "id": 145,
+        "safe": false,
         "lang": "en",
         "causedBy": null
     }
