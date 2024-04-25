@@ -31,17 +31,20 @@ type JokeResponse struct {
 	CausedBy []string `json:"causedBy"`
 }
 
+// first function to run
 func main() {
 	menu()
 }
 
+// concatenateStrings takes a slice of strings and concatenates them into a single string separated by commas which is later used to build a joke with multiple categories
 func concatenateStrings(stringArray []string) string {
-	// Join the strings with a comma in between
+
 	result := strings.Join(stringArray, ",")
 
 	return result
 }
 
+// buildAJokeWithCategory takes a slice of strings and builds a joke with multiple categories
 func buildAJokeWithCategory(category []string) {
 	if len(category) == 0 {
 		category = append(category, "Any")
@@ -57,14 +60,12 @@ func buildAJokeWithCategory(category []string) {
 	}
 	defer resp.Body.Close()
 
-	// Read the response body
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response:", err)
 		return
 	}
 
-	// Parse the JSON response
 	var joke JokeResponse
 	err = json.Unmarshal(body, &joke)
 	if err != nil {
@@ -79,15 +80,16 @@ func buildAJokeWithCategory(category []string) {
 
 	successfulJokes = append(successfulJokes, joke)
 
-	// Print the setup and delivery
 	fmt.Println("Setup:", joke.Setup)
 	fmt.Println("Delivery:", joke.Delivery)
 }
 
+// getURL returns the URL for the joke API
 func getURL() string {
 	return "https://v2.jokeapi.dev/joke"
 }
 
+// categoryMenu displays the category menu and allows the user to select a category to build a joke with
 func categoryMenu() {
 
 	var userInput string
@@ -137,10 +139,11 @@ func categoryMenu() {
 
 }
 
+// menu displays the main menu and allows the user to select an option
 func menu() {
 	var userInput string
 
-	for userInput != "7" {
+	for userInput != "8" {
 		fmt.Println("\nMain Menu")
 		fmt.Println("-------------------------")
 		fmt.Println("1. Get Any Joke")
@@ -149,7 +152,8 @@ func menu() {
 		fmt.Println("4. Save Jokes to File")
 		fmt.Println("5. See all Successful Jokes")
 		fmt.Println("6. Read Jokes from File")
-		fmt.Println("7. Exit")
+		fmt.Println("7. Delete all Jokes from File")
+		fmt.Println("8. Exit")
 		fmt.Print("Enter your choice: ")
 		fmt.Scanln(&userInput)
 		fmt.Println()
@@ -175,13 +179,17 @@ func menu() {
 			fmt.Println("Reading jokes from file...")
 			readJokesFromFile("jokes.json")
 		case "7":
+			fmt.Println("Deleting all jokes from file...")
+			deleteJokesFromFile("jokes.json")
+		case "8":
 			fmt.Println("Exiting...")
 		default:
-			fmt.Println("Invalid choice. Please enter a number between 1 and 7.")
+			fmt.Println("Invalid choice. Please enter a number between 1 and 8.")
 		}
 	}
 }
 
+// getJokeWithWord gets a joke with a specific word
 func getJokeWithWord(word string) {
 	resp, err := http.Get(getURL() + "/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&contains=" + word)
 	if err != nil {
@@ -190,14 +198,12 @@ func getJokeWithWord(word string) {
 	}
 	defer resp.Body.Close()
 
-	// Read the response body
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response:", err)
 		return
 	}
 
-	// Parse the JSON response
 	var joke JokeResponse
 	err = json.Unmarshal(body, &joke)
 	if err != nil {
@@ -220,6 +226,7 @@ func getJokeWithWord(word string) {
 	fmt.Println("Delivery:", joke.Delivery)
 }
 
+// getAnyJoke gets a joke with any category
 func getAnyJoke() {
 	resp, err := http.Get(getURL() + "/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit")
 	if err != nil {
@@ -228,14 +235,12 @@ func getAnyJoke() {
 	}
 	defer resp.Body.Close()
 
-	// Read the response body
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response:", err)
 		return
 	}
 
-	// Parse the JSON response
 	var joke JokeResponse
 	err = json.Unmarshal(body, &joke)
 	if err != nil {
@@ -254,6 +259,7 @@ func getAnyJoke() {
 	fmt.Println("Delivery:", joke.Delivery)
 }
 
+// displayAllJokes displays all jokes that have been successfully retrieved
 func displayAllJokes() {
 	fmt.Println("All Jokes:")
 	fmt.Println("-------------------------")
@@ -265,6 +271,7 @@ func displayAllJokes() {
 	}
 }
 
+// saveJokesToFile saves all jokes that have been successfully retrieved to a file
 func saveJokesToFile(filename string) {
 	file, err := os.Create(filename)
 	if err != nil {
@@ -273,14 +280,12 @@ func saveJokesToFile(filename string) {
 	}
 	defer file.Close()
 
-	// Marshal the jokes to JSON format
 	jokesJSON, err := json.MarshalIndent(successfulJokes, "", "    ")
 	if err != nil {
 		fmt.Println("Error marshaling jokes to JSON:", err)
 		return
 	}
 
-	// Write the JSON data to the file
 	_, err = file.Write(jokesJSON)
 	if err != nil {
 		fmt.Println("Error writing jokes to file:", err)
@@ -290,8 +295,9 @@ func saveJokesToFile(filename string) {
 	fmt.Println("Jokes saved to", filename)
 }
 
+// readJokesFromFile reads jokes from a file and displays them
 func readJokesFromFile(filename string) {
-	// Open the file
+
 	file, err := os.Open(filename)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
@@ -299,14 +305,12 @@ func readJokesFromFile(filename string) {
 	}
 	defer file.Close()
 
-	// Read the file contents
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
 	}
 
-	// Unmarshal the JSON data into a slice of JokeResponse structs
 	var jokes []JokeResponse
 	err = json.Unmarshal(data, &jokes)
 	if err != nil {
@@ -314,7 +318,6 @@ func readJokesFromFile(filename string) {
 		return
 	}
 
-	// Display the jokes
 	fmt.Println("Jokes read from", filename)
 	fmt.Println("-------------------------")
 	for i, joke := range jokes {
@@ -323,4 +326,17 @@ func readJokesFromFile(filename string) {
 		fmt.Printf("Delivery: %s\n", joke.Delivery)
 		fmt.Println("-------------------------")
 	}
+}
+
+// deleteJokesFromFile deletes all jokes from a file
+func deleteJokesFromFile(filename string) {
+
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_TRUNC, 0666)
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer file.Close()
+
+	fmt.Println("All jokes deleted from", filename)
 }

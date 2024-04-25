@@ -1,4 +1,3 @@
 # gogivemeajoke
 To run file
-run: go run main.go
-
+type: "go run main.go"
